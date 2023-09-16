@@ -26,7 +26,7 @@
 <body>
   <header>
     <nav class="navbar navbar-expand-lg topnav-menu navbar-light shadow" >
-      <div class="container">
+      <div class="container account-setting">
         <a class="navbar-brand me-lg-3 me-auto" href="index.html">
           <img src="assets/images/logo.png" height="45" class="d-inline-block align-top" alt="" />
         </a>
@@ -78,7 +78,7 @@
                 <div class="dropdown-divider"></div>
 
                  <!-- item start -->
-                 <a class="dropdown-item p-2" href="#">
+                 <a class="dropdown-item p-2" href="javascript:void(0);" tabindex="0" role="button" onclick="HTMLToPDF.system.logout()">
                   <i class="icon icon-xxs me-1 icon-dual" data-feather="unlock"></i>
                   Sign Out
                 </a>
@@ -133,7 +133,6 @@
                                             <form action="#" class="account-form">
 
                                                 <!-- avatar start -->
-                                                <h6 class="mt-4">Your Avatar</h6>
                                                 <div class="row align-items-center">
                                                     <div class="col-auto">
                                                         <img src="assets/images/avatars/img-8.jpg" class="img-fluid avatar-md rounded-circle shadow" alt="..." />
@@ -147,14 +146,14 @@
                                                 <div class="row align-items-center">
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
-                                                            <label for="name" class="form-label">Name<small>*</small></label>
-                                                            <input type="text" class="form-control" id="name" placeholder="Your Name"
+                                                            <label for="user_name" class="form-label">Name<small>*</small></label>
+                                                            <input type="text" class="form-control" id="user_name" placeholder="Your Name"
                                                                 name="name" value="Greeva Navadiya" />
                                                         </div>
 
                                                         <div class="mb-3">
-                                                            <label for="email" class="form-label">Email<small>*</small></label>
-                                                            <input type="email" class="form-control" id="email" placeholder="Email"
+                                                            <label for="user_email" class="form-label">Email<small>*</small></label>
+                                                            <input type="email" class="form-control" id="user_email" placeholder="Email"
                                                                 name="email" value="greeva@coderthemes.com" />
                                                         </div>
                                                     </div>
@@ -172,7 +171,7 @@
                                                             <label class="form-label">Phone<small>*</small></label>
                                                             <input type="text" class="form-control" id="phone"
                                                                 name="phone" placeholder="Phone number"
-                                                                value="+1 254 024 5400" />
+                                                                value="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -301,6 +300,7 @@
 
     <!-- theme js -->
     <script src="assets/js/theme.min.js"></script>
+    <script src="assets/js/oauth.login.js"></script>
 
 
 </body>

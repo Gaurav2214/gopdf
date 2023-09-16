@@ -191,10 +191,12 @@ HTMLToPDF.common = (() => {
 		if (isOperatable(requestSet)) {
 			requestSet = requestSet || {};
 			requestSet.data = requestSet.data || {};
+			requestSet.headers = requestSet.headers || {};
 			axios({
 				method: requestSet.type || 'POST',
 				url: requestSet.url,
 				data: requestSet.data,
+				headers:requestSet.headers,
 			})
 			.then(function (response) {
 				ajaxSuccess(response);
@@ -229,10 +231,14 @@ HTMLToPDF.system = {
 	logout: function() {
 		HTMLToPDF.common.deleteLocalStorage('oauthUserData');
 		HTMLToPDF.globalVar.is_loggedin = 0;
-		window.location.reload(true);
+		window.location.href = 'index.html';
+		//window.location.reload(true);
 	}
 };
 
+const updateAccountInfo = () => {
+
+}
 
 HTMLToPDF.login = (() => {
 	var showLoginLayer = () => {
@@ -404,7 +410,7 @@ HTMLToPDF.login = (() => {
 				HTMLToPDF.common.setLocalStorage('oauthUserData', response, 1);
 				window.loginCallback ? loginCallback(response) : false;
 				HTMLToPDF.globalVar.is_loggedin = 1;
-				window.location.href = 'index.html';
+				window.location.href = 'dashboard.html';
 			}
 
 			var ajaxErrorCall = (response) => {
@@ -416,6 +422,49 @@ HTMLToPDF.login = (() => {
 
 			HTMLToPDF.common.hitAjaxApi(paramObject, ajaxSuccessCall, ajaxErrorCall);
 		}
+	}
+
+	const verifyEmail = () => {
+		const urlParams = new URLSearchParams(window.location.search);
+		let verify_token = urlParams.get('token');
+		if(verify_token) {
+		
+			let paramObject = {
+				url: apiUrl + 'auth/verify-email',
+				type:'post',
+				headers:{'token': verify_token},
+			}
+			const ajaxSuccessCall = (response) => {
+				console.log(response);
+			}
+
+			const ajaxErrorCall = (error) => {
+				console.log(error);
+			}
+
+			HTMLToPDF.common.hitAjaxApi(paramObject, ajaxSuccessCall, ajaxErrorCall);
+		}
+	}
+
+	var sendVerificationMail = (response) => {
+		let paramObject = {
+			url: apiUrl + 'auth/send-verification-email',
+			type: 'post',
+			headers: {
+				'Authorization': 'Bearer '+response.data.tokens.access.token,
+				'Content-Type': 'application/json'
+			  },
+		}	
+
+		const ajaxSuccessCall = (response) => {
+			console.log(response);
+		}
+
+		const ajaxErrorCall = (error) => {
+			console.log(error);
+		}
+
+		HTMLToPDF.common.hitAjaxApi(paramObject, ajaxSuccessCall, ajaxErrorCall);
 	}
 
 	var userRegistration = () => {
@@ -454,6 +503,7 @@ HTMLToPDF.login = (() => {
 				setTimeout(function(){
 					$('.info_bg').hide();
 				}, 8000);
+				sendVerificationMail(response);
 			}
 
 			var ajaxErrorCall = (response) => {
@@ -517,13 +567,15 @@ HTMLToPDF.login = (() => {
 			$('.loggedin-user').removeClass('hide');
 			$('.init-login').addClass('hide');
 			let userData = `
-				<div class="show_user">
-					<img width="30" height="30" src="/src/images/default-user.png" alt="User Image">
-					<span>${username}</span>
-					<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5">
-						<polyline fill="#bbb" fill-rule="evenodd" points="160 30 165 35 170 30 160 30" transform="translate(-160 -30)"></polyline>
-					</svg>
+				<div class="d-flex align-items-center">
+					<div class="flex-shrink-0">
+					<img src="assets/images/avatars/img-8.jpg" class="avatar avatar-xs rounded-circle me-2" alt="" />
+					</div>
+					<div class="flex-grow-1 ms-1 lh-base">
+					<span class="fw-semibold fs-13 d-block line-height-normal">${username}</span>
+					</div>
 				</div>
+				
 				<div class="header-user-nav">
 					<div class="hvr_bx">
 						<ul>
@@ -546,8 +598,14 @@ HTMLToPDF.login = (() => {
 					</div>
 				</div>
 			`;
-			$('.loggedin-user').append(userData);
-			$('.main-header__inner--logo').css('width','585px');			
+			$('.navbar-nav .dropdown-toggle').html(userData);
+			//$('.main-header__inner--logo').css('width','585px');			
+			if($('.account-setting').length){
+				$('#user_name').val(username);
+				$('#user_email').val(data.user.email);
+				$('#display_name').val(username);
+				$('.prettyprint').html(data.user.api_key);
+			}
 		}
 	}
 
@@ -558,6 +616,7 @@ HTMLToPDF.login = (() => {
 		displayUserInfo  : displayUserInfo,
 		checkLoginStatus : checkLoginStatus,
 		convertPDF		 : convertPDF,
+		verifyEmail		 : verifyEmail,
 	}
 })();
 
