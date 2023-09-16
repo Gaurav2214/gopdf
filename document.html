@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- meta -->
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- title -->
+      <title>goPDF - Document</title>
+      <meta content="A fully featured multi purpose template" name="description" />
+      <!-- theme favicon -->
+      <link rel="shortcut icon" href="assets/images/favicon.ico">
+      <!-- third party plugins -->
+      <link rel="stylesheet" href="assets/css/vendor.min.css" type="text/css" />
+      <!-- theme css -->
+      <link rel="stylesheet" href="assets/css/theme.min.css" type="text/css" />
+      <link href="assets/css//quill.snow.css" rel="stylesheet">
+      <link rel="stylesheet" href="assets/css//quill.core.css">
+   </head>
+   <body class="loading">
+      <div class="loader-container">
+         <span class="loader"></span>
+      </div>
+      <!-- page-content start -->
+      <section class="position-relative bg-gradient2">
+         <div class="container-fluid">
+            <div class="row editor-nav-container shadow">
+               <div class="col-lg-2">
+                  <a class="navbar-brand me-lg-3 me-auto" href="index.html">
+                  <img src="assets/images/logo.png" height="30" class="d-inline-block align-top" alt="" />
+                  </a>
+               </div>
+               <div class="col-lg-8" id="editor-nav"></div>
+               <div class="col-lg-2">
+                  <button type="button" id="getdata" class="btn btn-soft-primary me-2">Save</button>
+                  <button type="button" id="exit" class="btn btn-soft-secondary me-2">Exit</button>
+               </div>
+            </div>
+            <div class="row mt-2">
+               <div class="col-lg-2"></div>
+               <div class="col-lg-8">
+                  <div class="editor-container">
+                     <div id="editor">
+                        <p>Hello World!</p>
+                        <p>Some initial <strong>bold</strong> text</p>
+                        <p><br></p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-2"></div>
+            </div>
+         </div>
+      </section>
+      <!-- page-content end -->
+      <!-- footer start -->
+      <section class="section py-4 position-relative">
+         <div class="container">
+            <div class="row align-items-center">
+               <div class="col">
+                  <ul class="list-inline list-with-separator mb-0">
+                     <li class="list-inline-item me-0"><a href="#">About</a></li>
+                     <li class="list-inline-item me-0"><a href="#">Privacy</a></li>
+                     <li class="list-inline-item me-0"><a href="#">Terms</a></li>
+                     <li class="list-inline-item me-0"><a href="#">Developers</a></li>
+                     <li class="list-inline-item me-0"><a href="#">Support</a></li>
+                     <li class="list-inline-item me-0">
+                        <a href="#">Careers 
+                        <span class="align-middle badge badge-soft-info rounded-pill fw-normal fs-11 px-2 py-1">We're hiring</span>
+                        </a>
+                     </li>
+                  </ul>
+               </div>
+               <div class="col-md-auto text-md-end mt-2 mt-md-0">
+                  <p class="fs-14 mb-0">
+                     <script>document.write(new Date().getFullYear())</script> © goPDF   
+                  </p>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- footer end -->
+      <!-- javascript -->
+      <!-- vendor js -->
+      <script src="assets/js/vendor.min.js"></script>
+      <!-- theme js -->
+      <script src="assets/js/theme.min.js"></script>
+      <!-- Include the Quill library -->
+      <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+      <script src="assets/js/quill-image-resize.min.js"></script>
+      <!-- Initialize Quill editor -->
+      <script>
+         var toolbarOptions = [
+         [{ 'header': [1, 2, 3, 4, false] }],
+         [{ 'font': [] }],
+         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+         ['blockquote', 'code-block'],
+         ['image'],
+         [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+         [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+         [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+         [{ 'align': [] }],
+         [{ 'direction': 'rtl' }]                                 
+         ];        
+         var quill = new Quill('#editor', {
+         modules: {
+             toolbar: toolbarOptions,
+             imageResize: {
+                 modules: [ 'Resize', 'DisplaySize' ]
+             },
+         },
+         theme: 'snow'  // or 'bubble'
+         });
+         setTimeout(function(){
+             $('.ql-toolbar').appendTo("#editor-nav");
+             $('body').removeClass("loading");
+         },1200)
+         $('#exit').click(function(){
+             var html = quill.root.innerHTML;
+             console.log(html);
+         });
+         $('#getdata').click(function(){
+             var delta = quill.getContents();
+        //      quill.setContents([
+        //      {
+        //          "attributes": {
+        //              "width": "256"
+        //          },
+        //      },
+        //      {
+        //          "insert": "\nSat yes {var}\n"
+        //      }
+        //  ]);
+        var range = quill.getSelection();
+        quill.clipboard.dangerouslyPasteHTML(range.index, '<gopdf class="go-variable">Hey!</gopdf>"');
+        quill.insertText(range.index, ' [Quill] ', {'color': '#05f'});
+        console.log(delta);
+         })
+      </script>
+      <style>
+         .ql-snow .ql-color-picker, .ql-snow .ql-icon-picker {
+         width: 30px;
+         margin-top: -5px;
+         }
+         .navbar.topnav-menu{
+         width: 100%;
+         background-color: #fff;
+         position: fixed;
+         z-index: 9;
+         }
+         .editor-nav-container {
+         border: none;
+         position: fixed;
+         top: 0;
+         z-index: 1;
+         background-color: #fff;
+         width: 100%;
+         height: 65px;
+         text-align: center;
+         align-items: center;
+         }
+         .ql-toolbar.ql-snow, .editor-container .ql-container {
+         border: none;
+         }
+         .editor-container {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         margin-top: 85px;
+         }
+         .editor-container .ql-container {
+         width: 21cm;
+         height: 29.7cm; 
+         background-color: #fff;
+         }
+         .loader {
+         width: 75px;
+         height: 75px;
+         border: 3px solid #FFF;
+         border-radius: 50%;
+         display: inline-block;
+         position: relative;
+         box-sizing: border-box;
+         animation: rotation 1s linear infinite;
+         }
+         .loader::after {
+         content: '';  
+         box-sizing: border-box;
+         position: absolute;
+         left: 50%;
+         top: 50%;
+         transform: translate(-50%, -50%);
+         width: 40px;
+         height: 40px;
+         border-radius: 50%;
+         border: 3px solid;
+         border-color: #042cf1 transparent;
+         }
+         .ql-toolbar.ql-snow .ql-picker-label {
+         border:none;
+         }
+         @keyframes rotation {
+         0% {
+         transform: rotate(0deg);
+         }
+         100% {
+         transform: rotate(360deg);
+         }
+         } 
+         .loader-container {
+         height: 100%;
+         background-color: #fff;
+         position: absolute;
+         width: 100vw;
+         z-index: 9;
+         align-items: center;
+         justify-content: center;
+         display:  none;
+         }
+         .loading .loader-container {
+         display: flex;
+         }
+         .loading .position-relative {
+         display: none;
+         }
+      </style>
+   </body>
+</html>
