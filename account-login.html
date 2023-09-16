@@ -20,6 +20,7 @@
 
     <!-- theme css -->
     <link rel="stylesheet" href="assets/css/theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/base.css" type="text/css" />
 </head>
 
 <body>
@@ -46,14 +47,16 @@
                                         <form action="#" class="authentication-form">
 
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1" class="form-label">Email <small>*</small></label>
-                                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" name="email" />
+                                                <label for="b2boauth_log_email" class="form-label">Email <small>*</small></label>
+                                                <input type="email" class="form-control" id="b2boauth_log_email" placeholder="Email" name="email" />
+                                                <p id="b2boauth_log_email_err" class="error"></p>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label class="form-label" for="password">Password <small>*</small></label>
+                                                <label class="form-label" for="b2boauth_log_pswd">Password <small>*</small></label>
                                                 <a href="account-forget-password.html" class="float-end text-muted text-unline-dashed ms-1 fs-13">Forgot your password?</a>
-                                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" />
+                                                <input type="password" class="form-control" id="b2boauth_log_pswd" name="password" placeholder="Enter your password" />
+                                                <p id="b2boauth_log_pswd_err" class="error"></p>
                                             </div>
 
                                             <div class="mb-3">
@@ -62,8 +65,9 @@
                                             </div>
 
                                             <div class="mb-0 text-center d-grid">
-                                                <button class="btn btn-primary" type="submit">Log In</button>
+                                                <button class="btn btn-primary" onclick="HTMLToPDF.login.loginUser(1)" type="button">Log In</button>
                                             </div>
+                                            <p id="b2boauth_log_main_err" class="error error_info"></p>
                                         </form>
                                     </div>
                                 </div>
@@ -154,12 +158,14 @@
     </div>
 
     <!-- javascript -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- vendor js -->
     <script src="assets/js/vendor.min.js"></script>
 
 
     <!-- theme js -->
     <script src="assets/js/theme.min.js"></script>
+    <script src="assets/js/oauth.login.js"></script>
 
 
 </body>

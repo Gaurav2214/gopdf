@@ -1,0 +1,16 @@
+.error{
+    color: #ED1C24;
+    clear: both;
+    font-size: 13px;
+}
+
+.info_bg{
+    background: #f8d2d2;
+    border: none;
+    padding: 8px 16px;
+    font-family: Montserrat,sans-serif;
+}
+
+.bold{
+    font-weight: 700;
+}

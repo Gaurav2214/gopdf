@@ -21,6 +21,7 @@
 
     <!-- theme css -->
     <link rel="stylesheet" href="assets/css/theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/base.css" type="text/css" />
 </head>
 
 <body>
@@ -42,25 +43,29 @@
                                         <h6 class="h5 mb-0 mt-3">Create Your Account</h6>
                                         <p class="text-muted mt-1 mb-4">Don't have an account? Create your account, it takes less than a minute.</p>
 
-                                        <form action="#" class="authentication-form">
+                                        <form class="authentication-form">
                                             <div class="mb-3">
-                                                <label for="exampleName" class="form-label">Your Name <small>*</small></label>
-                                                <input type="email" class="form-control" id="exampleName" aria-describedby="exampleName" placeholder="Your Name" name="name" />
+                                                <label for="b2boauth_name" class="form-label">Your Name <small>*</small></label>
+                                                <input type="email" class="form-control" id="b2boauth_name" aria-describedby="exampleName" placeholder="Your Name" name="name" />
+                                                <p id="b2boauth_name_err" class="error"></p>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1" class="form-label">Email <small>*</small></label>
-                                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" name="email" />
+                                                <label for="b2boauth_registration_email" class="form-label">Email <small>*</small></label>
+                                                <input type="email" class="form-control" id="b2boauth_registration_email" placeholder="Email" name="email" />
+                                                <p id="b2boauth_registration_email_err" class="error"></p>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label class="form-label">Password <small>*</small></label>
-                                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" />
+                                                <label for="b2boauth_registration_password" class="form-label">Password <small>*</small></label>
+                                                <input type="password" class="form-control" id="b2boauth_registration_password" name="password" placeholder="Enter your password" />
+                                                <p id="b2boauth_registration_password_err" class="error"></p>
                                             </div>
 
                                             <div class="mb-0 text-center d-grid">
-                                                <button class="btn btn-primary" type="submit">Register</button>
+                                                <button class="btn btn-primary" onclick="HTMLToPDF.login.userRegistration(1)" type="button">Register</button>
                                             </div>
+                                            <p id="reg_main_err" class="error error_info"></p>
                                         </form>
                                     </div>
                                 </div>
@@ -153,12 +158,14 @@
     </div>
 
     <!-- javascript -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- vendor js -->
     <script src="assets/js/vendor.min.js"></script>
 
 
     <!-- theme js -->
     <script src="assets/js/theme.min.js"></script>
+    <script src="assets/js/oauth.login.js"></script>
 
 
 </body>
