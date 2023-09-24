@@ -427,11 +427,13 @@ HTMLToPDF.login = (() => {
 	const verifyEmail = () => {
 		const urlParams = new URLSearchParams(window.location.search);
 		let verify_token = urlParams.get('token');
+		let getOuathData = HTMLToPDF.common.getLocalStorage('oauthUserData');
 		if(verify_token) {
 		
 			let paramObject = {
 				url: apiUrl + 'auth/verify-email',
 				type:'post',
+				data:{'email':getOuathData.user.email},
 				headers:{'token': verify_token},
 			}
 			const ajaxSuccessCall = (response) => {
@@ -503,6 +505,7 @@ HTMLToPDF.login = (() => {
 				setTimeout(function(){
 					$('.info_bg').hide();
 				}, 8000);
+				HTMLToPDF.common.setLocalStorage('oauthUserData', response.data, 1);
 				sendVerificationMail(response);
 			}
 
@@ -531,10 +534,7 @@ HTMLToPDF.login = (() => {
 		if(!strVal) {
 			return false;
 		}
-		// let anchor = `
-		// 		<a id="my-link" class="hide" target="_blank" href="/">sdfsdfdsfsd</a>
-		// 	`;
-		// $(e).after(anchor);
+		
 		link = document.getElementById('my-link');	
 		var demoForm = document.getElementById('demo-form');	
 
@@ -606,6 +606,45 @@ HTMLToPDF.login = (() => {
 				$('#display_name').val(username);
 				$('.prettyprint').html(data.user.api_key);
 			}
+			if($('.dashboard-setting').length){
+				$('.page-title h3 span').html(username);
+			}
+
+		}
+	}
+
+	var forgetPassword = () => {
+		let reg_email = $('#b2boauth_log_email').val();
+		$('.error').html('');
+
+		$(".authentication-form input").each(function () {
+			if ($(this).attr('type') != 'button' && $(this).attr('type') != 'checkbox') {
+				HTMLToPDF.common.removeRequiredFields($(this));
+				if (valError) { return false; }
+			}
+		});
+
+		if (valError) {
+			return false;
+
+		} else {
+			let paramObject = {
+				url: apiUrl + 'auth/forgot-password',
+				type: 'post',
+				data: {'email':reg_email},
+			}
+
+			const ajaxSuccessCall = (response) => {
+				console.log(response);
+			}
+
+			const ajaxErrorCall = (error) => {
+				if(error.response){
+					$('#b2boauth_log_email_err').html(error.response.data.message).show();
+				}
+			}
+
+			HTMLToPDF.common.hitAjaxApi(paramObject, ajaxSuccessCall, ajaxErrorCall);
 		}
 	}
 
@@ -617,6 +656,7 @@ HTMLToPDF.login = (() => {
 		checkLoginStatus : checkLoginStatus,
 		convertPDF		 : convertPDF,
 		verifyEmail		 : verifyEmail,
+		forgetPassword	 : forgetPassword,
 	}
 })();
 
